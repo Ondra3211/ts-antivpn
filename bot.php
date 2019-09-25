@@ -4,7 +4,7 @@ require __DIR__ . "/config.php";
 
 TeamSpeak3::init();
 
-msg("Bot Started | AntiVPN 1.0");
+msg("Bot Started | AntiVPN 1.1");
 msg("PHP " . phpversion() . " | TS3Lib " . TeamSpeak3::LIB_VERSION);
 msg("Bot by Ondra3211 | https://github.com/Ondra3211" . PHP_EOL);
 
@@ -27,29 +27,33 @@ function msg($message)
 function onEnter(TeamSpeak3_Adapter_ServerQuery_Event $e, TeamSpeak3_Node_Host $host)
 {
     global $cf;
-    if ($e["client_type"] == 0) {
-        $user = $host->serverGetSelected()->clientGetByUid($e["client_unique_identifier"])->getInfo();
-        $ip = $user["connection_client_ip"];
-        if (!IgnoreMe($user["client_servergroups"])) {
-            $ch = curl_init();
-            curl_setopt_array($ch, array(
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HTTPHEADER => array(
-                    "X-Key:" . $cf["anti-vpn"]["API-Key"],
-                ),
-                CURLOPT_URL => "http://v2.api.iphub.info/ip/{$ip}"
-            ));
-            $result = curl_exec($ch);
-            curl_close($ch);
-            $result = json_decode($result, true);
-            if ($result["block"] == 1 or $result["block"] == 2) {
-                msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > VPN Detected");
-                $host->serverGetSelected()->clientKick($user["clid"], TeamSpeak3::KICK_SERVER, $cf["anti-vpn"]["kick_message"]);
+    if ($e["client_type"] !== 1) {
+        try {
+            $user = $host->serverGetSelected()->clientGetByUid($e["client_unique_identifier"])->getInfo();
+            $ip = $user["connection_client_ip"];
+            if (!IgnoreMe($user["client_servergroups"])) {
+                $ch = curl_init();
+                curl_setopt_array($ch, array(
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_HTTPHEADER => array(
+                        "X-Key:" . $cf["anti-vpn"]["API-Key"],
+                    ),
+                    CURLOPT_URL => "http://v2.api.iphub.info/ip/{$ip}"
+                ));
+                $result = curl_exec($ch);
+                curl_close($ch);
+                $result = json_decode($result, true);
+                if ($result["block"] == 1 or $result["block"] == 2) {
+                    msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > VPN Detected");
+                    $host->serverGetSelected()->clientKick($user["clid"], TeamSpeak3::KICK_SERVER, $cf["anti-vpn"]["kick_message"]);
+                } else {
+                    msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > Not VPN");
+                }
             } else {
-                msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > Not VPN");
+                msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > Ignored");
             }
-        } else {
-            msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > Ignored");
+        } catch (TeamSpeak3_Exception $e) {
+            msg("[VPN] Error " . $e->getCode() . ": " . $e->getMessage());
         }
     }
 }
