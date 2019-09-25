@@ -1,4 +1,4 @@
-# TeamSpeak Query  bot - Anti VPN [![GitHub release](https://img.shields.io/github/v/release/Ondra3211/ts-antivpn?include_prereleases)](https://github.com/Ondra3211/ts-antivpn/releases/tag/1.0) [![GitHub license](https://img.shields.io/github/license/Ondra3211/ts-antivpn)](https://github.com/Ondra3211/ts-antivpn/blob/master/LICENSE)
+# TeamSpeak Query  bot - Anti VPN [![GitHub release](https://img.shields.io/github/v/release/Ondra3211/ts-antivpn?include_prereleases)](https://github.com/Ondra3211/ts-antivpn/releases/tag/1.1) [![GitHub license](https://img.shields.io/github/license/Ondra3211/ts-antivpn)](https://github.com/Ondra3211/ts-antivpn/blob/master/LICENSE)
 
 ## What is this?
 
