@@ -31,7 +31,7 @@ function onEnter(TeamSpeak3_Adapter_ServerQuery_Event $e, TeamSpeak3_Node_Host $
         try {
             $user = $host->serverGetSelected()->clientGetByUid($e["client_unique_identifier"])->getInfo();
             $ip = $user["connection_client_ip"];
-            if (!IgnoreMe($user["client_servergroups"])) {
+            if (IgnoreMe($user["client_servergroups"]) !== true) {
                 $ch = curl_init();
                 curl_setopt_array($ch, array(
                     CURLOPT_RETURNTRANSFER => true,
