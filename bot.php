@@ -31,18 +31,22 @@ function onEnter(TeamSpeak3_Adapter_ServerQuery_Event $e, TeamSpeak3_Node_Host $
         try {
             $user = $host->serverGetSelected()->clientGetByUid($e["client_unique_identifier"])->getInfo();
             $ip = $user["connection_client_ip"];
+
             if (IgnoreMe($user["client_servergroups"]) !== true) {
+                
                 $ch = curl_init();
-                curl_setopt_array($ch, array(
+                curl_setopt_array($ch, [
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_HTTPHEADER => array(
-                        "X-Key:" . $cf["anti-vpn"]["API-Key"],
-                    ),
+                    CURLOPT_HTTPHEADER => [
+                        "X-Key:" . $cf["anti-vpn"]["API-Key"]
+                    ],
                     CURLOPT_URL => "http://v2.api.iphub.info/ip/{$ip}"
-                ));
+                ]);
+
                 $result = curl_exec($ch);
                 curl_close($ch);
                 $result = json_decode($result, true);
+
                 if ($result["block"] == 1 or $result["block"] == 2) {
                     msg("[VPN] " . $user["client_nickname"] . " | " . $ip . " > VPN Detected");
                     $host->serverGetSelected()->clientKick($user["clid"], TeamSpeak3::KICK_SERVER, $cf["anti-vpn"]["kick_message"]);
@@ -82,8 +86,10 @@ function onSelect(TeamSpeak3_Node_Host $host)
     TeamSpeak3_Helper_Signal::getInstance()->subscribe("notifyCliententerview", "onEnter");
     $host->serverGetSelected()->notifyRegister("server");
     $host->serverGetSelected()->notifyRegister("channel");
+
     if ($cf["connect"]["default_channel"] != false) {
         $host->serverGetSelected()->clientMove($host->serverGetSelected()->whoamiGet("client_id"), $cf["connect"]["default_channel"]);
     }
+
     msg("Connected to: " . $host->serverGetSelected()->getProperty("virtualserver_name") . PHP_EOL);
 }
