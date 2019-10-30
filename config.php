@@ -8,7 +8,7 @@ $cf["connect"] = [
 	"qport" => "10011",
 	"vport" => "9987",
 	"nickname" => "Anti VPN",
-	"default_channel" => false /* false to disable */
+	"default_channel" => false // false to disable
 ];
 
 // https://iphub.info
