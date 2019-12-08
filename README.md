@@ -1,4 +1,4 @@
-# TeamSpeak Query  bot - Anti VPN [![GitHub release](https://img.shields.io/github/v/release/Ondra3211/ts-antivpn?include_prereleases)](https://github.com/Ondra3211/ts-antivpn/releases/tag/1.1) [![GitHub license](https://img.shields.io/github/license/Ondra3211/ts-antivpn)](https://github.com/Ondra3211/ts-antivpn/blob/master/LICENSE)
+# TeamSpeak Query  bot - Anti VPN [![GitHub license](https://img.shields.io/github/license/Ondra3211/ts-antivpn)](https://github.com/Ondra3211/ts-antivpn/blob/master/LICENSE)
 
 ## What is this?
 
@@ -23,11 +23,9 @@ composer require planetteamspeak/ts3-php-framework
 ```  
 ## Configuration
 <details>
-  <summary>config.php</summary>
+	<summary>config.php</summary>
   
-  ```php
-<?php
-/* EXAMPLE CONFIGURATION FILE */
+```php
 $cf["connect"] = [
 	"username" => "serveradmin",
 	"password" => "2lM3Nop6",
@@ -35,26 +33,24 @@ $cf["connect"] = [
 	"qport" => "10011",
 	"vport" => "9987",
 	"nickname" => "Anti VPN",
-	"default_channel" => false /* false to disable */
+	"default_channel" => false // false to disable 
 ];
-/**
- * https://iphub.info/
- */
+
+// https://iphub.info/
+
 $cf["anti-vpn"] = [
 	"API-Key" => "",
 	"ignored_groups" => array(51594, 51618, 52335, 51601, 51606, 51620, 51602, 51607, 51604, 51608, 51605, 51609, 51592, 51622, 51610),
 	"kick_message" => "VPN Is not allowed!"
 ];
-return $cf;
-?>
-  ```
+```
   
 </details>
 
 ## How to use?
-
-After installtion and configuration you can start the bot  
-**Linux:** `screen -AmdSL antivpn bot.php`
+```
+screen -AmdS tsbot php bot.php
+```
 
 ## License
 ```
