@@ -1,6 +1,4 @@
 <?php
-// Teamspeak Server Connection
-
 $cf["connect"] = [
 	"username" => "serveradmin",
 	"password" => "2lM3Nop6",
