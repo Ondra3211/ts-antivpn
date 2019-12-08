@@ -47,7 +47,7 @@ $cf["anti-vpn"] = [
   
 </details>
 
-## How to use?
+## Usage
 ```
 screen -AmdS tsbot php bot.php
 ```
